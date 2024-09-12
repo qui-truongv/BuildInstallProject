@@ -8,19 +8,30 @@ pipeline {
                 git branch: 'main', url: 'https://github.com/qui-truongv/BuildInstallProject.git'
             }
         }
-        
+		
+        stage('Set Workspace') {
+            steps {
+                // Set custom workspace directory
+                dir('C:\\FPT\\GMC-Core-eHOS\\github\\JenkinWorkspace') {
+                    echo 'Workspace set to C:\\FPT\\GMC-Core-eHOS\\github\\JenkinWorkspace'
+                }
+            }
+        }
+		
         stage('Build') {
             steps {
-                script {
-                    // Use MSBuild to build the .sln file
-                    if (isUnix()) {
-                        // For Unix-based systems (Linux, macOS)
-                        sh 'dotnet build hello-kitty.sln'
-                    } else {
-                        // For Windows-based systems
-                        bat '"C:\\Program Files\\Microsoft Visual Studio\\2022\\Professional\\MSBuild\\Current\\Bin\\MSBuild.exe" hello-kitty.sln /p:Configuration=Release'
-                    }
-                }
+				dir('C:\\FPT\\GMC-Core-eHOS\\github\\JenkinWorkspace\\BuildInstaller\\hello-kitty'){
+					script {
+						// Use MSBuild to build the .sln file
+						if (isUnix()) {
+							// For Unix-based systems (Linux, macOS)
+							sh 'dotnet build hello-kitty.sln'
+						} else {
+							// For Windows-based systems
+							bat '"C:\\Program Files\\Microsoft Visual Studio\\2022\\Professional\\MSBuild\\Current\\Bin\\MSBuild.exe" hello-kitty.sln /p:Configuration=Release'
+						}
+					}
+				}
             }
         }
     }
