@@ -1,0 +1,39 @@
+pipeline {
+    agent any
+    
+    stages {
+        stage('Checkout') {
+            steps {
+                // Clone the repository from GitHub
+                git branch: 'main', url: 'https://github.com/qui-truongv/BuildInstallProject.git'
+            }
+        }
+        
+        stage('Build') {
+            steps {
+                script {
+                    // Use MSBuild to build the .sln file
+                    if (isUnix()) {
+                        // For Unix-based systems (Linux, macOS)
+                        sh 'dotnet build hello-kitty.sln'
+                    } else {
+                        // For Windows-based systems
+                        bat '"C:\\Program Files\\Microsoft Visual Studio\\2022\\Professional\\MSBuild\\Current\\BinMSBuild.exe" hello-kitty.sln /p:Configuration=Release'
+                    }
+                }
+            }
+        }
+    }
+    
+    post {
+        always {
+            echo 'Build completed!'
+        }
+        success {
+            echo 'Build successful!'
+        }
+        failure {
+            echo 'Build failed.'
+        }
+    }
+}
