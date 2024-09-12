@@ -25,6 +25,17 @@ pipeline {
 				}
             }
         }
+		
+		stage('Package with Advanced Installer') {
+            steps {
+                dir('C:\\FPT\\GMC-Core-eHOS\\github\\AdvancedInstaller') {
+                    script {
+                        // Run Advanced Installer to build the installer
+                        bat '"C:\\Program Files (x86)\\Caphyon\\Advanced Installer 22.0\\bin\\x86\\AdvancedInstaller.com" /build "TestInstaller.aip"'
+                    }
+                }
+            }
+        }
     }
     
     post {
