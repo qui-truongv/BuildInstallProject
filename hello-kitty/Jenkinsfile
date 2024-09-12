@@ -9,18 +9,9 @@ pipeline {
             }
         }
 		
-        stage('Set Workspace') {
-            steps {
-                // Set custom workspace directory
-                dir('C:\\FPT\\GMC-Core-eHOS\\github\\JenkinWorkspace') {
-                    echo 'Workspace set to C:\\FPT\\GMC-Core-eHOS\\github\\JenkinWorkspace'
-                }
-            }
-        }
-		
         stage('Build') {
             steps {
-				dir('C:\\FPT\\GMC-Core-eHOS\\github\\JenkinWorkspace\\BuildInstaller\\hello-kitty'){
+				dir('C:\\ProgramData\\Jenkins\\.jenkins\\workspace\\BuildInstaller\\hello-kitty'){
 					script {
 						// Use MSBuild to build the .sln file
 						if (isUnix()) {
